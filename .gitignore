@@ -1,0 +1,7 @@
+data/*
+bin/*
+obj/*
+*.log
+*.log.*
+*.log.*.*
+*.log.*.*.*
