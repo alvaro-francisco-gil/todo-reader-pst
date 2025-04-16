@@ -3,9 +3,9 @@ using Aspose.Email.Storage.Pst;
 using System.Text.Json;
 using System.Text;
 
-string pstPath = @"C:\Users\alvar\Githubs\ToDoReader\2024-dec.pst";
-string fullJsonPath = @"C:\Users\alvar\Githubs\ToDoReader\todos_full.json";
-string simpleJsonPath = @"C:\Users\alvar\Githubs\ToDoReader\todos_simple.json";
+string pstPath = @"C:\Users\alvar\Githubs\ToDoReader\data\raw\2025-3-31.pst";
+string fullJsonPath = @"C:\Users\alvar\Githubs\ToDoReader\data\processed\todos_full.json";
+string simpleJsonPath = @"C:\Users\alvar\Githubs\ToDoReader\data\processed\todos_simple.json";
 
 try
 {
