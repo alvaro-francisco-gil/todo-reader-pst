@@ -296,7 +296,7 @@ void ProcessTaskProperties(Dictionary<string, string> properties,
         return DateTime.TryParse(value, out result);
     }
     
-    // Full task details
+    // Full task details - now will include all properties in a single unified dictionary
     var taskFull = new Dictionary<string, object>
     {
         ["Subject"] = properties.GetValueOrDefault("Subject", ""),
@@ -323,24 +323,24 @@ void ProcessTaskProperties(Dictionary<string, string> properties,
         ["Status"] = int.TryParse(properties.GetValueOrDefault("Status", "0"), out int status) ? status : 0
     };
     
-    // Add all custom properties to full export
-    var customProps = new Dictionary<string, object>();
+    // Add all other properties directly to the taskFull dictionary
     foreach (var prop in properties)
     {
         try
         {
+            // Skip properties that are already in the taskFull dictionary
             if (!taskFull.ContainsKey(prop.Key))
             {
-                customProps[prop.Key] = prop.Value;
+                taskFull[prop.Key] = prop.Value;
             }
         }
         catch { } // Ignore any properties that can't be read
     }
     
-    taskFull["CustomProperties"] = customProps;
+    // No longer adding a separate CustomProperties dictionary
     allTasksFull.Add(taskFull);
     
-    // Simplified task details - removed MessageClass, CreationTime, Categories, TaskId, Status, LocalId
+    // Simplified task details - no changes to this part
     var taskSimple = new Dictionary<string, object>
     {
         ["Subject"] = properties.GetValueOrDefault("Subject", ""),
@@ -445,19 +445,15 @@ void CreateSampleTaskData(string fullJsonPath, string simpleJsonPath)
             ["TaskId"] = Guid.NewGuid().ToString(),
             ["Priority"] = i % 3,
             ["PercentComplete"] = isComplete ? 1.0 : 0.0,
-            ["Status"] = isComplete ? 2 : 1
-        };
-        
-        // Add custom properties
-        var customProps = new Dictionary<string, object>
-        {
+            ["Status"] = isComplete ? 2 : 1,
+            // Add the custom properties directly to the main dictionary
             ["Folder Name"] = "Tareas",
             ["Creation Time"] = creationDate.ToString(),
             ["Local ID"] = i.ToString(),
             ["Creator"] = "Sample User"
         };
         
-        taskFull["CustomProperties"] = customProps;
+        // No longer adding a separate CustomProperties entry
         allTasksFull.Add(taskFull);
         
         // Simplified task details
